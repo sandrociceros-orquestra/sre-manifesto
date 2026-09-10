@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
+
 jobs:
   publish-site:
     runs-on: ubuntu-latest
@@ -21,4 +25,6 @@ jobs:
       - name: Get latest changes
         run: git pull
       - name: Deploy new site
-        run: mkdocs gh-deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        run: mkdocs gh-deploy --force
